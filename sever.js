@@ -4,7 +4,7 @@ const qs = require("qs");
 
 let personsInfo = [];
 let display = "";
-
+let i = 0;
 const server = http.createServer(function (req, res) {
   if (req.method === "GET") {
     fs.readFile("./views/info.html", function (err, data) {
@@ -26,16 +26,19 @@ const server = http.createServer(function (req, res) {
         if (err) {
           console.log(err);
         }
-        display += `<p>${userInfo.name}</p>
+        
+        display += `<p><span>${i}. </span>${userInfo.name}</p>
     <p>${userInfo.phone}</p>
     <p>${userInfo.email}</p>
     <p>${userInfo.address}</p>`;
+        
         datahtml = datahtml.replace("{listUser}", display);
 
         res.writeHead(200, { "Content-Type": "text/html" });
         res.write(datahtml);
         return res.end();
       });
+      i++;
     });
     req.on("error", () => {
       console.log("error");
